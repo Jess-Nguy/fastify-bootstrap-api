@@ -18,14 +18,10 @@ module.exports = fp(async function (fastify, opts, next) {
         url: "https://swagger.io",
         description: "Find more info here",
       },
-      host: "localhost",
+      host: "127.0.0.1:3000",
       schemes: ["http"],
       consumes: ["application/json"],
       produces: ["application/json"],
-      tags: [
-        { name: "user", description: "User related end-points" },
-        { name: "code", description: "Code related end-points" },
-      ],
     },
     uiConfig: {
       docExpansion: "full",
