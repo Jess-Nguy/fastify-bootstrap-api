@@ -21,3 +21,8 @@ Run the test cases.
 ## Learn More
 
 To learn Fastify, check out the [Fastify documentation](https://www.fastify.io/docs/latest/).
+
+
+# Reference:
+This project is a lesson on fastify that followed -
+https://www.youtube.com/playlist?list=PLU_22oKqONin7yagFMm3x1tJihYaIVVwa

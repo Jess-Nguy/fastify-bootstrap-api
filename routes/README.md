@@ -1,4 +1,5 @@
 # Routes Folder
+New fastify uses the term routes instead of `Services`.
 
 Routes define routes within your application. Fastify provides an
 easy path to a microservice architecture, in the future you might want
