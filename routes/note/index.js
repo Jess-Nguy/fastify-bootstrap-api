@@ -11,7 +11,7 @@ module.exports = async function (fastify, opts, next) {
                     items: {
                         type: 'object',
                         properties: {
-                            id: { type: 'number', description: 'Unique Identifier'},
+                            id: { type: 'number', description: 'Unique Identifier for a specific note'},
                             title: { type: 'string' },
                             body: { type: 'string', description: 'Main content of the note'}
                         }
@@ -40,22 +40,20 @@ module.exports = async function (fastify, opts, next) {
             },
             response: {
                 200: {
-                    type: 'array',
-                    items: {
-                        type: 'object',
-                        properties: {
-                            id: { type: 'number', description: 'Unique Identifier'},
-                            title: { type: 'string' },
-                            body: { type: 'string', description: 'Main content of the note'}
-                        }
+                    type: 'object',
+                    required: ['id', 'title', 'body'],
+                    properties: {
+                        id: { type: 'number', description: 'Unique Identifier'},
+                        title: { type: 'string' },
+                        body: { type: 'string', description: 'Main content of the note'}
                     }
                 }
             }
         },
         handler: async (request, reply) => {
-            return [];
+            return {id: 1, title: 'fake title', body: 'fake body'};
         }
-    })
+    });
 
     fastify.route({
         method: 'PUT',
@@ -95,7 +93,7 @@ module.exports = async function (fastify, opts, next) {
         handler: async (request, reply) => {
             return [];
         }
-    })
+    });
 
     fastify.route({
         method: 'DELETE',
@@ -120,7 +118,7 @@ module.exports = async function (fastify, opts, next) {
         handler: async (request, reply) => {
             return;
         }
-    })
+    });
 
-    next()
+    next();
 }
