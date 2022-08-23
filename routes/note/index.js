@@ -1,4 +1,8 @@
+const NotesDAL = require('./notesDAL');
+
 module.exports = async function (fastify, opts, next) {
+    const notesDAL = NotesDAL(fastify.db);
+
     fastify.route({
         method: 'GET',
         url: '/notes',
@@ -51,7 +55,10 @@ module.exports = async function (fastify, opts, next) {
             }
         },
         handler: async (request, reply) => {
-            return {id: 1, title: 'fake title', body: 'fake body'};
+            const { title, body } = request.body;
+            const newNote = await notesDAL.createNote(title, body);
+            
+            return newNote;
         }
     });
 
@@ -91,7 +98,7 @@ module.exports = async function (fastify, opts, next) {
             }
         },
         handler: async (request, reply) => {
-            return [];
+           return [];
         }
     });
 
