@@ -1,3 +1,4 @@
+const { noteSchema } = require('./schema');
 const NotesDAL = require('./notesDAL');
 
 module.exports = async function (fastify, opts, next) {
@@ -12,19 +13,14 @@ module.exports = async function (fastify, opts, next) {
             response: {
                 200: {
                     type: 'array',
-                    items: {
-                        type: 'object',
-                        properties: {
-                            id: { type: 'number', description: 'Unique Identifier for a specific note'},
-                            title: { type: 'string' },
-                            body: { type: 'string', description: 'Main content of the note'}
-                        }
-                    }
+                    items: noteSchema
                 }
             }
         },
         handler: async (request, reply) => {
-            return [];
+            const getAllNotes = await notesDAL.getNotes();
+            
+            return getAllNotes;
         }
     })
 
@@ -43,15 +39,7 @@ module.exports = async function (fastify, opts, next) {
                 }
             },
             response: {
-                200: {
-                    type: 'object',
-                    required: ['id', 'title', 'body'],
-                    properties: {
-                        id: { type: 'number', description: 'Unique Identifier'},
-                        title: { type: 'string' },
-                        body: { type: 'string', description: 'Main content of the note'}
-                    }
-                }
+                200: noteSchema
             }
         },
         handler: async (request, reply) => {
@@ -84,21 +72,14 @@ module.exports = async function (fastify, opts, next) {
                 }
             },
             response: {
-                200: {
-                    type: 'array',
-                    items: {
-                        type: 'object',
-                        properties: {
-                            id: { type: 'number', description: 'Unique Identifier'},
-                            title: { type: 'string' },
-                            body: { type: 'string', description: 'Main content of the note'}
-                        }
-                    }
-                }
+                200: noteSchema
             }
         },
         handler: async (request, reply) => {
-           return [];
+            const { id } = request.params;
+            const { title, body} = request.body;
+
+            return await notesDAL.updateNote(title, body, id);
         }
     });
 
@@ -123,7 +104,10 @@ module.exports = async function (fastify, opts, next) {
             }
         },
         handler: async (request, reply) => {
-            return;
+            const { id } = request.params;
+            await notesDAL.deleteNote(id);
+
+            reply.status(204);
         }
     });
 
